@@ -3,6 +3,29 @@ u4pak
 
 Unpack, pack, list, test and mount Unreal Engine 4 .pak archives.
 
+=====
+
+## 🔧 Batch Tool (by porhe911)
+
+This repo includes an additional helper: **`u4pak_tool.bat`**  
+Данный репозиторий включает дополнительный инструмент: **`u4pak_tool.bat`**
+
+### Features / Возможности:
+- Menu with options / Меню с выбором действий:
+  - `1` — Unpack `.pak` → extracts into `<pakname>_unpacked`  
+    `1` — Распаковать `.pak` → создаётся папка `<имя>_unpacked`
+  - `2` — Pack folder → builds `pak_from_<folder>.pak`  
+    `2` — Запаковать папку → создаётся файл `pak_from_<папка>.pak`
+  - `3` — Exit / Выход
+- Input validation (only 1/2/3 allowed, safe checks).  
+  Проверка ввода (только 1/2/3, защита от неверных значений).  
+- Checks that file exists and has `.pak` extension.  
+  Проверка, что выбранный файл существует и имеет расширение `.pak`.  
+- If file is invalid — output folder is not created.  
+  Если файл невалидный, папка для распаковки не создаётся.
+
+=====
+
 **NOTE:** I've wrote an [alternative version](https://github.com/panzi/rust-u4pak)
 of this in Rust and compiled a [self-contained binary](https://github.com/panzi/rust-u4pak/releases)
 for Windows users. So there is no hassle with installing Python, plus it adds a
