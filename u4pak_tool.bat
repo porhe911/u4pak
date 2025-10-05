@@ -167,9 +167,19 @@ if not exist "%pakfile%" (
 
 echo.
 echo Listing contents of: %pakfile%
+set "PAKNAME="
+for %%# in ("%pakfile%") do (
+  set "PAKNAME=%%~n#"
+)
+set "LISTFILE=%SCRIPT_DIR%%PAKNAME%_contents.txt"
+echo Output will be saved to "%LISTFILE%"
 echo ==================================
-%PY% "%U4PAK%" list "%pakfile%"
+%PY% "%U4PAK%" list "%pakfile%" > "%LISTFILE%"
+type "%LISTFILE%"
 echo ==================================
+if exist "%LISTFILE%" (
+  echo Listing saved to "%LISTFILE%"
+)
 echo.
 echo Press any key to continue...
 pause >nul
