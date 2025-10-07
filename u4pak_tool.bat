@@ -171,14 +171,26 @@ set "PAKNAME="
 for %%# in ("%pakfile%") do (
   set "PAKNAME=%%~n#"
 )
-set "LISTFILE=%SCRIPT_DIR%%PAKNAME%_contents.txt"
-echo Output will be saved to "%LISTFILE%"
+set "LISTBASENAME=%PAKNAME%_contents.txt"
+set "LISTFILE_TARGET=%SCRIPT_DIR%%LISTBASENAME%"
+set "LIST_OUTPUT_DIR=%TEMP%\u4pak"
+if "%TEMP%"=="" set "LIST_OUTPUT_DIR=%SCRIPT_DIR%"
+if not exist "%LIST_OUTPUT_DIR%\" mkdir "%LIST_OUTPUT_DIR%" >nul 2>&1
+set "LISTFILE_TEMP=%LIST_OUTPUT_DIR%\%LISTBASENAME%"
+if exist "%LISTFILE_TEMP%" del /f /q "%LISTFILE_TEMP%" >nul 2>&1
+
+echo Attempting to save listing to "%LISTFILE_TARGET%"
+if not "%LIST_OUTPUT_DIR%"=="%SCRIPT_DIR%" echo Using temporary file "%LISTFILE_TEMP%"
 echo ==================================
-%PY% "%U4PAK%" list "%pakfile%" > "%LISTFILE%"
-type "%LISTFILE%"
+%PY% "%U4PAK%" list "%pakfile%" > "%LISTFILE_TEMP%"
+type "%LISTFILE_TEMP%"
 echo ==================================
-if exist "%LISTFILE%" (
-  echo Listing saved to "%LISTFILE%"
+copy /y "%LISTFILE_TEMP%" "%LISTFILE_TARGET%" >nul 2>&1
+if errorlevel 1 (
+  echo WARNING: Could not save listing to "%LISTFILE_TARGET%"
+  echo Listing saved to "%LISTFILE_TEMP%"
+) else (
+  echo Listing saved to "%LISTFILE_TARGET%"
 )
 echo.
 echo Press any key to continue...
